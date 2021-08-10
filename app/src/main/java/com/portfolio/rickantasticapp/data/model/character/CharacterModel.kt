@@ -8,7 +8,7 @@ data class CharacterModel(
     @SerializedName("name")
     val name: String? = null,
     @SerializedName("status")
-    val status:String?=null,
+    val status: String? = null,
     @SerializedName("species")
     val species: String? = null,
     @SerializedName("type")

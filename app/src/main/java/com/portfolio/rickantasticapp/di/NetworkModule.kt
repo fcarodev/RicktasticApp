@@ -1,12 +1,21 @@
-package com.portfolio.rickantasticapp.data.network
+package com.portfolio.rickantasticapp.di
 
+import com.portfolio.rickantasticapp.data.network.API
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
-object RetrofitHelper {
+
+@Module
+@InstallIn(SingletonComponent::class)//<- deja la instancia del objeto hasta que la aplicacion muere
+object NetworkModule {
 
     private val BASE_URL = "https://rickandmortyapi.com/"
     private val CONNECT_TIMEOUT = 30 * 4
@@ -25,8 +34,9 @@ object RetrofitHelper {
         .readTimeout(READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
         .build()
 
-
-    fun getRetrofit():Retrofit{
+    @Singleton
+    @Provides
+    fun provideRetrofit():Retrofit{
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -34,4 +44,9 @@ object RetrofitHelper {
             .build()
     }
 
+    @Singleton
+    @Provides
+    fun provideCharacterApiClient(retrofit: Retrofit): API.Character{
+        return retrofit.create( API.Character::class.java)
+    }
 }

@@ -1,8 +1,9 @@
 package com.portfolio.rickantasticapp.data.model.character
 
-class CharacterProvider {
+import javax.inject.Inject
+import javax.inject.Singleton
 
-    companion object {
+@Singleton
+class CharacterProvider @Inject constructor() {
         var characterModel = CharacterModel()
-    }
 }
